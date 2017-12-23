@@ -9,10 +9,9 @@ logger = logging.getLogger(__name__)
 LOCAL_TZ = datetime.datetime.now(datetime.timezone.utc).astimezone().tzinfo
 
 
-def download(symbol, duration, bar_size, dest_dir, host, port, client_id):
-    logger.info(f'Downloading historical data of {symbol} for {duration}')
-    ib = IB()
-    ib.connect(host, port, client_id)
+def _fetch_to_df(ib, symbol, duration, bar_size):
+    logger.info(f'Downloading historical data of {symbol} for {duration} '
+                f'with {bar_size} resolution')
 
     contract = Stock(symbol, exchange='SMART', currency='USD')
     bars = ib.reqHistoricalData(
@@ -23,15 +22,28 @@ def download(symbol, duration, bar_size, dest_dir, host, port, client_id):
     df.set_index('date', inplace=True)
     df.index = df.index.tz_localize(LOCAL_TZ).tz_convert('UTC')
 
-    df.drop(columns=['average', 'barCount'], inplace=True)
+    return df
 
-    filename = f'{dest_dir}/HC-{symbol}-1M-ib.csv'
-    df.to_csv(filename)
-    logger.info(f'Created file: {filename}')
+
+def download(symbols, duration, bar_size, dest_dir, host, port, client_id):
+    ib = IB()
+    ib.connect(host, port, client_id)
+
+    for symbol in symbols:
+        filename = f'{dest_dir}/HC-{symbol}-1M-ib.csv'
+
+        df = _fetch_to_df(ib, symbol, duration, bar_size)
+        df.drop(columns=['average', 'barCount'], inplace=True)
+
+        df.to_csv(filename)
+        logger.info(f'Created file: {filename}')
+
+        # Throttle to avoid 'Pacing violation'
+        ib.sleep(11)
 
 
 @click.command()
-@click.argument('symbol')
+@click.argument('symbols', nargs=-1)
 @click.option(
     '--duration',
     type=click.Choice(['1 D', '1 M', '3 M', '6 M', '1 Y']),
@@ -62,7 +74,7 @@ def download(symbol, duration, bar_size, dest_dir, host, port, client_id):
     help='Set log level'
 )
 @click.pass_context
-def main(ctx, symbol, duration, bar_size, dest_dir, tws_uri, log_level):
+def main(ctx, symbols, duration, bar_size, dest_dir, tws_uri, log_level):
     if not duration:
         ctx.fail("must specify download duration with --duration")
     if not bar_size:
@@ -74,7 +86,7 @@ def main(ctx, symbol, duration, bar_size, dest_dir, tws_uri, log_level):
 
     logging.basicConfig(level=log_level)
 
-    download(symbol, duration, bar_size, dest_dir, host, port, client_id)
+    download(symbols, duration, bar_size, dest_dir, host, port, client_id)
 
 
 if __name__ == '__main__':
