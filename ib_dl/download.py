@@ -6,7 +6,7 @@ from ib_insync import IB, Stock, util
 
 logger = logging.getLogger(__name__)
 
-LOCAL_TIMEZONE = datetime.datetime.now(datetime.timezone.utc).astimezone().tzinfo
+LOCAL_TZ = datetime.datetime.now(datetime.timezone.utc).astimezone().tzinfo
 
 
 def download(symbol, period, dest_dir, host, port, client_id):
@@ -22,7 +22,7 @@ def download(symbol, period, dest_dir, host, port, client_id):
 
     df = util.df(bars)
     df.set_index('date', inplace=True)
-    df.index = df.index.tz_localize(LOCAL_TIMEZONE).tz_convert('UTC')
+    df.index = df.index.tz_localize(LOCAL_TZ).tz_convert('UTC')
 
     df.drop(columns=['average', 'barCount'], inplace=True)
 
