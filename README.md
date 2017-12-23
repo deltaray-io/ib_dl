@@ -13,11 +13,12 @@ The heavy lifting is done by [ib_insync](https://github.com/erdewit/ib_insync) p
  * [IB's TWS API](http://interactivebrokers.github.io)
  
 ## Usage
- * Install with pip: `pip install ib_dl`
+ * Download and install IB TWS API
+ * Install ib-dl with pip: `pip install ib_dl`
  * Start TWS, enable API access
- * Download data: `ib_dl SPY "1 M" /path/to/dest/dir localhost:7492:999`
+ * Download data: `ib-dl SPY --duration "1 M" --bar-size "1 min" --tws-uri localhost:7492:999`
 
-For further details see the help screen.
+For further details see the help screen: `ib-dl --help`
 
 ## License
 [Apache License Version 2.0](http://www.apache.org/licenses/)

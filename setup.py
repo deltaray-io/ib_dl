@@ -19,7 +19,7 @@ install_reqs = [e.strip() for e in open("requirements.txt").readlines()]
 
 setup(
     name='ib_dl',
-    version='1.0',
+    version='1.1',
     author='Tibor Kiss',
     author_email='tibor.kiss@gmail.com',
     description='Historical market data downloader using Interactive Brokers TWS',
