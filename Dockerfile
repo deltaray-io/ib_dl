@@ -1,4 +1,5 @@
 FROM python:3.6
+LABEL maintainer="tibor.kiss@gmail.com"
 
 RUN mkdir /build
 
