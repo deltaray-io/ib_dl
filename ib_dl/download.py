@@ -84,7 +84,9 @@ def main(ctx, symbols, duration, bar_size, dest_dir, tws_uri, log_level):
     port = int(tws_uri.split(':')[1])
     client_id = int(tws_uri.split(':')[2])
 
-    logging.basicConfig(level=log_level)
+    logging.basicConfig(
+        level=log_level,
+        format='%(asctime)s [%(levelname)s] %(module)s %(message)s')
 
     download(symbols, duration, bar_size, dest_dir, host, port, client_id)
 
