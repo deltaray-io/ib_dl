@@ -1,5 +1,5 @@
 [![PyPI version](https://badge.fury.io/py/ib_dl.svg)](https://badge.fury.io/py/ib_dl)
-[![Build Status](https://api.travis-ci.org/tibkiss/ib_dl.svg?branch=maste´r)](https://travis-ci.org/tibkiss/ib_dl)
+[![Build Status](https://api.travis-ci.org/tibkiss/ib_dl.svg?branch=master)](https://travis-ci.org/tibkiss/ib_dl)
 [![Docker Build Status](https://img.shields.io/docker/build/tibkiss/ib_dl.svg)](https://hub.docker.com/r/tibkiss/ib_dl/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
