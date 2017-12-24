@@ -12,4 +12,4 @@ ADD . /build/ib_dl
 WORKDIR /build/ib_dl
 RUN python setup.py install
 
-ENTRYPOINT /usr/local/bin/ib-dl
+ENTRYPOINT ["/usr/local/bin/ib-dl"]
