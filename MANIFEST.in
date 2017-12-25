@@ -1,2 +1,4 @@
 include versioneer.py
 include ib_dl/_version.py
+include README.md
+include LICENSE
