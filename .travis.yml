@@ -19,6 +19,9 @@ script:
 deploy:
   provider: pypi
   user: tibkiss
+  server: https://upload.pypi.org/legacy/
   password:
     secure: lPmvziYQ5Lo5W/Bcr8JSKSSzMy2YbWCWU1wUXB0yGXYczVj8KvLg4ivOS2UMqweUdkzw9a6cP7rDQcLx0IIApOSJ86/egwVLKPG3udyeRJ/VRf4e9tuPIgCBUtYz/9wdGfT46M9K2vNBO8WtInJC6HIoNKJ08mOmBty0m11wxfZDLNG4ubzTqPpEcNP4eQWVAT91xr9/ozIy00U3HgcgKIUTc1b4OAm4wIEXNs7g7zO9aP5lkuI7yNeXQ3ByKxhbKizmbownJToXy4pNa+MUxS4hP90ZcSy0N4JNIv4exlPhCM3z5+HjJZ5DAD/DW9xCHV+8vjxPVFPnlLLTEUrjlmNVkv+kwKJbt6H3OPVfk2VraYcOOUrKJ6T6WSJEjBCImwqFjWPH3JReWPJBrnahbYAvh7RMIGyF20gWPhFWMuDww2hxIBWtmwG5pkFlNAPt/DnzPF+OIBSrT060fC9v5laDKyLR/5Qq6csKfo+kaEyEp0pSCWa9y+YLARxmci1bhOiHusY0zEHmgWP4hTa1/0SuWz0pjWLM/moKGIqr7ANEqUB6PirDspsNrRVTrbqKSqAt9ss5DQZtKvw8dQD2y3cGsFC7Ta12ryd5c/MSmZsNac0tihwgQfMVxgVJzj6fVZ3LS4+DcL2jXVTK7GZE72hadf3TDOWlpOj9S45wRTw=
   distributions: sdist bdist_wheel
+  on:
+    branch: master
