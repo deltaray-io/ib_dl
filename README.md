@@ -20,5 +20,9 @@ The heavy lifting is done by [ib_insync](https://github.com/erdewit/ib_insync) p
 
 For further details see the help screen: `ib-dl --help`
 
+## Docker
+Docker images are provided under [tibkiss/ib_dl](https://hub.docker.com/r/tibkiss/ib_dl/)
+
+
 ## License
 [Apache License Version 2.0](http://www.apache.org/licenses/)
