@@ -1,0 +1,2 @@
+include versioneer.py
+include ib_dl/_version.py

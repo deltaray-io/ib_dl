@@ -5,6 +5,7 @@ from distutils.core import setup
 
 from setuptools import find_packages
 
+import versioneer
 
 try:
     import pypandoc
@@ -19,7 +20,8 @@ install_reqs = [e.strip() for e in open("requirements.txt").readlines()]
 
 setup(
     name='ib_dl',
-    version='1.1',
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     author='Tibor Kiss',
     author_email='tibor.kiss@gmail.com',
     description='Historical market data downloader using Interactive Brokers TWS',
