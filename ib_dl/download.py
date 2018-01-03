@@ -9,13 +9,13 @@ logger = logging.getLogger(__name__)
 LOCAL_TZ = datetime.datetime.now(datetime.timezone.utc).astimezone().tzinfo
 
 
-def _fetch_to_df(ib, symbol, duration, bar_size):
+def _fetch_to_df(ib, symbol, end_datetime, duration, bar_size):
     logger.info(f'Downloading historical data of {symbol} for {duration} '
                 f'with {bar_size} resolution')
 
     contract = Stock(symbol, exchange='SMART', currency='USD')
     bars = ib.reqHistoricalData(
-        contract, endDateTime='', durationStr=duration,
+        contract, endDateTime=end_datetime, durationStr=duration,
         barSizeSetting=bar_size, whatToShow='TRADES', useRTH=True)
 
     df = util.df(bars)
@@ -26,12 +26,13 @@ def _fetch_to_df(ib, symbol, duration, bar_size):
     return df
 
 
-def download(symbols, duration, bar_size, dest_dir, host, port, client_id):
+def download(symbols, duration, end_datetime, bar_size, dest_dir, host, port,
+             client_id):
     ib = IB()
     ib.connect(host, port, client_id)
 
     for symbol in symbols:
-        df = _fetch_to_df(ib, symbol, duration, bar_size)
+        df = _fetch_to_df(ib, symbol, end_datetime, duration, bar_size)
         df.drop(columns=['average', 'barCount'], inplace=True)
 
         start_date = df.first_valid_index().strftime("%Y%m%d")
@@ -47,6 +48,12 @@ def download(symbols, duration, bar_size, dest_dir, host, port, client_id):
 
 @click.command()
 @click.argument('symbols', nargs=-1)
+@click.option(
+    '--end-datetime',
+    default='',
+    help='End date and time of the download. E.g.: "20160127 23:59:59" '
+         'The empty string indicates current present moment.'
+)
 @click.option(
     '--duration',
     type=click.Choice(['1 D', '1 M', '3 M', '6 M', '1 Y']),
