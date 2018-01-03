@@ -30,11 +30,13 @@ def download(symbols, duration, bar_size, dest_dir, host, port, client_id):
     ib.connect(host, port, client_id)
 
     for symbol in symbols:
-        filename = f'{dest_dir}/HC-{symbol}-1M-ib.csv'
-
         df = _fetch_to_df(ib, symbol, duration, bar_size)
         df.drop(columns=['average', 'barCount'], inplace=True)
 
+        start_date = df.first_valid_index().strftime("%Y%m%d")
+        end_date = df.first_valid_index().strftime("%Y%m%d")
+
+        filename = f'{dest_dir}/HC-{symbol}-1M-{start_date}-{end_date}-ib.csv'
         df.to_csv(filename)
         logger.info(f'Created file: {filename}')
 
