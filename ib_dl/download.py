@@ -21,6 +21,7 @@ def _fetch_to_df(ib, symbol, duration, bar_size):
     df = util.df(bars)
     df.set_index('date', inplace=True)
     df.index = df.index.tz_localize(LOCAL_TZ).tz_convert('UTC')
+    df['volume'] *= 100
 
     return df
 
