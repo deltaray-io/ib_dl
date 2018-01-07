@@ -26,7 +26,7 @@ def _fetch_to_df(ib, symbol, end_datetime, duration, bar_size):
     return df
 
 
-def download(symbols, duration, end_datetime, bar_size, dest_dir, host, port,
+def download(symbols, end_datetime, duration, bar_size, dest_dir, host, port,
              client_id):
     ib = IB()
     ib.connect(host, port, client_id)
@@ -84,7 +84,7 @@ def download(symbols, duration, end_datetime, bar_size, dest_dir, host, port,
     help='Set log level'
 )
 @click.pass_context
-def main(ctx, symbols, duration, bar_size, dest_dir, tws_uri, log_level):
+def main(ctx, symbols, end_datetime, duration, bar_size, dest_dir, tws_uri, log_level):
     if not duration:
         ctx.fail("must specify download duration with --duration")
     if not bar_size:
@@ -98,7 +98,7 @@ def main(ctx, symbols, duration, bar_size, dest_dir, tws_uri, log_level):
         level=log_level,
         format='%(asctime)s [%(levelname)s] %(module)s %(message)s')
 
-    download(symbols, duration, bar_size, dest_dir, host, port, client_id)
+    download(symbols, end_datetime, duration, bar_size, dest_dir, host, port, client_id)
 
 
 if __name__ == '__main__':
