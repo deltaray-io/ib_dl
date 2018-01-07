@@ -36,7 +36,7 @@ def download(symbols, duration, end_datetime, bar_size, dest_dir, host, port,
         df.drop(columns=['average', 'barCount'], inplace=True)
 
         start_date = df.first_valid_index().strftime("%Y%m%d")
-        end_date = df.first_valid_index().strftime("%Y%m%d")
+        end_date = df.last_valid_index().strftime("%Y%m%d")
 
         filename = f'{dest_dir}/HC-{symbol}-1M-{start_date}-{end_date}-ib.csv'
         df.to_csv(filename)
