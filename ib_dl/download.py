@@ -84,7 +84,8 @@ def download(symbols, end_datetime, duration, bar_size, dest_dir, host, port,
     help='Set log level'
 )
 @click.pass_context
-def main(ctx, symbols, end_datetime, duration, bar_size, dest_dir, tws_uri, log_level):
+def main(ctx, symbols, end_datetime, duration, bar_size, dest_dir, tws_uri,
+         log_level):
     if not duration:
         ctx.fail("must specify download duration with --duration")
     if not bar_size:
@@ -98,7 +99,8 @@ def main(ctx, symbols, end_datetime, duration, bar_size, dest_dir, tws_uri, log_
         level=log_level,
         format='%(asctime)s [%(levelname)s] %(module)s %(message)s')
 
-    download(symbols, end_datetime, duration, bar_size, dest_dir, host, port, client_id)
+    download(symbols, end_datetime, duration, bar_size, dest_dir, host, port,
+             client_id)
 
 
 if __name__ == '__main__':
