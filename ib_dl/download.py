@@ -9,11 +9,11 @@ logger = logging.getLogger(__name__)
 LOCAL_TZ = datetime.datetime.now(datetime.timezone.utc).astimezone().tzinfo
 
 
-def _fetch_to_df(ib, symbol, end_datetime, duration, bar_size):
+def _fetch_to_df(ib, symbol, exchange, end_datetime, duration, bar_size):
     logger.info(f'Downloading historical data of {symbol} for {duration} '
                 f'with {bar_size} resolution')
 
-    contract = Stock(symbol, exchange='SMART', currency='USD')
+    contract = Stock(symbol, exchange=exchange, currency='USD')
     bars = ib.reqHistoricalData(
         contract, endDateTime=end_datetime, durationStr=duration,
         barSizeSetting=bar_size, whatToShow='TRADES', useRTH=True)
@@ -32,7 +32,12 @@ def download(symbols, end_datetime, duration, bar_size, dest_dir, host, port,
     ib.connect(host, port, client_id)
 
     for symbol in symbols:
-        df = _fetch_to_df(ib, symbol, end_datetime, duration, bar_size)
+        exchange = 'SMART'
+        if '@' in symbol:
+            symbol, exchange = symbol.split('@')
+
+        df = _fetch_to_df(ib, symbol, exchange,
+                          end_datetime, duration, bar_size)
         df.drop(columns=['average', 'barCount'], inplace=True)
 
         start_date = df.first_valid_index().strftime("%Y%m%d")
