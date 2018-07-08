@@ -20,7 +20,8 @@ def _fetch_to_df(ib, symbol, exchange, end_datetime, duration, bar_size):
 
     df = util.df(bars)
     df.set_index('date', inplace=True)
-    df.index = df.index.tz_localize(LOCAL_TZ).tz_convert('UTC')
+    if bar_size == '1 min':
+        df.index = df.index.tz_localize(LOCAL_TZ).tz_convert('UTC')
     df['volume'] *= 100
 
     return df
@@ -43,7 +44,9 @@ def download(symbols, end_datetime, duration, bar_size, dest_dir, host, port,
         start_date = df.first_valid_index().strftime("%Y%m%d")
         end_date = df.last_valid_index().strftime("%Y%m%d")
 
-        filename = f'{dest_dir}/HC-{symbol}-1M-{start_date}-{end_date}-ib.csv'
+        bar_size_short = "1M" if bar_size == "1 min" else "1D"
+        filename = f'{dest_dir}/HC-' \
+            f'{symbol}-{bar_size_short}-{start_date}-{end_date}-ib.csv'
         df.to_csv(filename)
         logger.info(f'Created file: {filename}')
 
