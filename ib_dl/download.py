@@ -32,10 +32,11 @@ def download(symbols, end_datetime, duration, bar_size, dest_dir, host, port,
     ib = IB()
     ib.connect(host, port, client_id)
 
-    for symbol in symbols:
-        exchange = 'SMART'
-        if '@' in symbol:
-            symbol, exchange = symbol.split('@')
+    for full_symbol in symbols:
+        if '@' in full_symbol:
+            symbol, exchange = full_symbol.split('@', 1)
+        else:
+            symbol, exchange = full_symbol, 'SMART'
 
         df = _fetch_to_df(ib, symbol, exchange,
                           end_datetime, duration, bar_size)
@@ -46,7 +47,7 @@ def download(symbols, end_datetime, duration, bar_size, dest_dir, host, port,
 
         bar_size_short = "1M" if bar_size == "1 min" else "1D"
         filename = f'{dest_dir}/HC-' \
-            f'{symbol}-{bar_size_short}-{start_date}-{end_date}-ib.csv'
+            f'{full_symbol}-{bar_size_short}-{start_date}-{end_date}-ib.csv'
         df.to_csv(filename)
         logger.info(f'Created file: {filename}')
 
