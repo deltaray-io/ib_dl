@@ -35,6 +35,7 @@ def download(symbols, end_datetime, duration, bar_size, dest_dir, host, port,
     for full_symbol in symbols:
         if '@' in full_symbol:
             symbol, exchange = full_symbol.split('@', 1)
+            exchange = 'SMART:%s' % exchange
         else:
             symbol, exchange = full_symbol, 'SMART'
 
