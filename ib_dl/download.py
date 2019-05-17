@@ -30,7 +30,7 @@ def _fetch_to_df(ib, symbol, exchange, end_datetime, duration, bar_size):
 def download(symbols, end_datetime, duration, bar_size, dest_dir, host, port,
              client_id):
     ib = IB()
-    ib.connect(host, port, client_id)
+    ib.connect(host, port, client_id, timeout=10)
 
     for full_symbol in symbols:
         if '@' in full_symbol:
